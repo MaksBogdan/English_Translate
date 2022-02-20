@@ -23,6 +23,7 @@ class App extends React.Component {
      value : {
         word: this.state.word.slice(),
         translate: this.state.translate.slice(),
+        overtured: false,
      }
    };
    this.setState ({
@@ -32,6 +33,16 @@ class App extends React.Component {
     cards: [...this.state.cards,newCard]
   })
 };
+
+turnCard(id) {
+  const cards = [...this.state.cards];
+
+  let index = cards.findIndex((cards) => {
+    return cards.id === id
+  });
+  cards[index].value.overtured = !cards[index].value.overtured;
+  this.updateInput('cards', cards);
+}
 
   render (){
     return (
@@ -62,9 +73,10 @@ class App extends React.Component {
               return(
                 <div 
                 key = {card.id}
-                className = 'card'
+                className = {'card'+ (card.value.overtured ? 'overtured' : '')}
+                onClick = {() => this.turnCard(card.id)}
                 >
-                  {card.value.word}
+                  {card.value.overtured ? card.value.translate : card.value.word}
                 </div>
               )
             })}
